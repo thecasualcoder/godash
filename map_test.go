@@ -40,4 +40,79 @@ func TestMap(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, expected, out)
 	})
+
+	squared := func(element int) int {
+		return element * element
+	}
+
+	t.Run("should not panic if output is nil", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		{
+			var out []int
+
+			err := godash.Map(in, out, squared)
+
+			assert.EqualError(t, err, "output is nil. Pass a reference to set output")
+		}
+
+		{
+			err := godash.Map(in, nil, squared)
+
+			assert.EqualError(t, err, "output is nil. Pass a reference to set output")
+		}
+	})
+
+	t.Run("should not accept mapper function that are not functions", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		var out []int
+
+		err := godash.Map(in, &out, 7)
+
+		assert.EqualError(t, err, "mapperFn has to be a function")
+	})
+
+	t.Run("should not accept mapper function that do not take exactly one argument", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		var out []int
+
+		{
+			err := godash.Map(in, &out, func() int { return 0 })
+			assert.EqualError(t, err, "mapper function has to take only one argument")
+		}
+
+		{
+			err := godash.Map(in, &out, func(int, int) int { return 0 })
+			assert.EqualError(t, err, "mapper function has to take only one argument")
+		}
+	})
+
+	t.Run("should not accept mapper function that do not return exactly one value", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		var out []int
+
+		{
+			err := godash.Map(in, &out, func(int) {})
+			assert.EqualError(t, err, "mapper function should return only one return value")
+		}
+
+		{
+			err := godash.Map(in, &out, func(int) (int, int) { return 0, 0 })
+			assert.EqualError(t, err, "mapper function should return only one return value")
+		}
+	})
+
+	t.Run("should accept mapper function whose argument's kind should be slice's element kind", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		var out []int
+
+		{
+			err := godash.Map(in, &out, func(string) string { return "" })
+			assert.EqualError(t, err, "mapper function's first argument has to be the type of element of input slice")
+		}
+
+		{
+			err := godash.Map(in, &out, func(int) int { return 0 })
+			assert.NoError(t, err)
+		}
+	})
 }
