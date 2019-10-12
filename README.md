@@ -11,6 +11,7 @@ This library heavily makes use of `reflect` package and hence will have an **imp
 
 1. [Map](#Map)
 2. [Filter](#Filter)
+3. [Reduce](#Reduce)
 
 ## Usages
 
@@ -86,5 +87,47 @@ func main() {
 	})
 
 	fmt.Println(output) // prints {Doe 30}
+}
+```
+
+### Reduce
+
+Reduce reduces the given collection using given reduce function 
+
+_Primitive types_
+
+```go
+func main() {
+	input := []int{1, 2, 3, 4, 5}
+	var output int
+
+	godash.Reduce(input, &output, func(sum, element int) int {
+		return sum + element
+	})
+
+	fmt.Println(output) // prints 15
+}
+```
+
+_Struct type_
+
+```go
+type Person struct {
+	Name string
+	Age Int
+}
+
+func main() {
+	input := []Person{
+		{Name: "John", Age: 22},
+		{Name: "Doe", Age: 23},
+	}
+	var output int
+
+	godash.Reduce(input, &output, func(sum int, person Person) int {
+		return sum + person.Age
+	})
+
+	fmt.Println(output) // prints 45
 }
 ```
