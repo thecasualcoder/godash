@@ -33,6 +33,23 @@ func TestReduce(t *testing.T) {
 			assert.NoError(t, err)
 			assert.Equal(t, expected, out)
 		}
+		{
+			in := []string{"one", "two", "two", "three", "three", "three"}
+			out := map[string]int{}
+
+			err := godash.Reduce(in, &out, func(acc map[string]int, element string) map[string]int {
+				if _, present := acc[element]; present {
+					acc[element] = acc[element] + 1
+				} else {
+					acc[element] = 1
+				}
+				return acc
+			})
+
+			expected := map[string]int{"one": 1, "two": 2, "three": 3}
+			assert.NoError(t, err)
+			assert.Equal(t, expected, out)
+		}
 	})
 
 	t.Run("support structs", func(t *testing.T) {
