@@ -62,6 +62,15 @@ func TestMap(t *testing.T) {
 		}
 	})
 
+	t.Run("should not panic if output is not a slice", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		var out int
+
+		err := godash.Map(in, &out, squared)
+
+		assert.EqualError(t, err, "output should be a slice for input of type slice")
+	})
+
 	t.Run("should not accept mapper function that are not functions", func(t *testing.T) {
 		in := []int{1, 2, 3}
 		var out []int
@@ -112,6 +121,21 @@ func TestMap(t *testing.T) {
 
 		{
 			err := godash.Map(in, &out, func(int) int { return 0 })
+			assert.NoError(t, err)
+		}
+	})
+
+	t.Run("should accept mapper function whose return's kind should be  output slice's element kind", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		var out []string
+
+		{
+			err := godash.Map(in, &out, func(int) int { return 0 })
+			assert.EqualError(t, err, "mapper function's return type has to be the type of element of output slice")
+		}
+
+		{
+			err := godash.Map(in, &out, func(int) string { return "" })
 			assert.NoError(t, err)
 		}
 	})

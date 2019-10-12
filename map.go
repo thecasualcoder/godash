@@ -28,8 +28,14 @@ func Map(in, out, mapperFn interface{}) error {
 	}
 
 	if input.Kind() == reflect.Slice {
+		if output.Kind() != reflect.Slice {
+			return fmt.Errorf("output should be a slice for input of type slice")
+		}
 		if input.Type().Elem().Kind() != mapper.Type().In(0).Kind() {
 			return fmt.Errorf("mapper function's first argument has to be the type of element of input slice")
+		}
+		if output.Type().Elem().Elem().Kind() != mapper.Type().Out(0).Kind() {
+			return fmt.Errorf("mapper function's return type has to be the type of element of output slice")
 		}
 
 		result := reflect.MakeSlice(output.Elem().Type(), 0, input.Len())
@@ -46,4 +52,3 @@ func Map(in, out, mapperFn interface{}) error {
 	}
 	return fmt.Errorf("not implemented")
 }
-
