@@ -83,7 +83,7 @@ func TestReduce(t *testing.T) {
 
 		err := godash.Reduce(in, &out, 7)
 
-		assert.EqualError(t, err, "reduceFn has to be a function")
+		assert.EqualError(t, err, "reduceFn has to be a (func) and not (int)")
 	})
 
 	t.Run("should not accept reducer function that do not take exactly two argument", func(t *testing.T) {
@@ -92,12 +92,12 @@ func TestReduce(t *testing.T) {
 
 		{
 			err := godash.Reduce(in, &out, func() int { return 0 })
-			assert.EqualError(t, err, "reducer function has to take exactly two argument")
+			assert.EqualError(t, err, "reduceFn has to take exactly 2 arguments and not 0 argument(s)")
 		}
 
 		{
 			err := godash.Reduce(in, &out, func(int) int { return 0 })
-			assert.EqualError(t, err, "reducer function has to take exactly two argument")
+			assert.EqualError(t, err, "reduceFn has to take exactly 2 arguments and not 1 argument(s)")
 		}
 	})
 
@@ -107,12 +107,12 @@ func TestReduce(t *testing.T) {
 
 		{
 			err := godash.Reduce(in, &out, func(int, int) {})
-			assert.EqualError(t, err, "reducer function should return only one return value")
+			assert.EqualError(t, err, "reduceFn should have only one return value and not 0 return type(s)")
 		}
 
 		{
 			err := godash.Reduce(in, &out, func(int, int) (int, int) { return 0, 0 })
-			assert.EqualError(t, err, "reducer function should return only one return value")
+			assert.EqualError(t, err, "reduceFn should have only one return value and not 2 return type(s)")
 		}
 	})
 
@@ -122,7 +122,7 @@ func TestReduce(t *testing.T) {
 
 		{
 			err := godash.Reduce(in, &out, func(string, int) int { return 0 })
-			assert.EqualError(t, err, "reducer function's first argument has to be the type of out")
+			assert.EqualError(t, err, "reduceFn's first argument's type(string) has to be the type of out(int)")
 		}
 
 		{
@@ -137,7 +137,7 @@ func TestReduce(t *testing.T) {
 
 		{
 			err := godash.Reduce(in, &out, func(string, string) string { return "" })
-			assert.EqualError(t, err, "reducer function's second argument has to be the type of element of input slice")
+			assert.EqualError(t, err, "reduceFn's second argument's type(string) has to be the type of element of input slice(int)")
 		}
 
 		{
@@ -152,7 +152,7 @@ func TestReduce(t *testing.T) {
 
 		{
 			err := godash.Reduce(in, &out, func(string, int) int { return 0 })
-			assert.EqualError(t, err, "reducer function's return type has to be the type of out")
+			assert.EqualError(t, err, "reduceFn's return type(int) has to be the type of out(string)")
 		}
 
 		{

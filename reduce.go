@@ -22,13 +22,13 @@ func Reduce(in, out, reduceFn interface{}) error {
 		outputKind := output.Elem().Kind()
 		reducerFnType := reducer.Type()
 		if outputKind != reducerFnType.In(0).Kind() {
-			return fmt.Errorf("reducer function's first argument has to be the type of out")
+			return fmt.Errorf("reduceFn's first argument's type(%s) has to be the type of out(%s)", reducerFnType.In(0).Kind(), outputKind)
 		}
 		if input.Type().Elem().Kind() != reducerFnType.In(1).Kind() {
-			return fmt.Errorf("reducer function's second argument has to be the type of element of input slice")
+			return fmt.Errorf("reduceFn's second argument's type(%s) has to be the type of element of input slice(%s)", reducerFnType.In(1).Kind(), input.Type().Elem().Kind())
 		}
 		if outputKind != reducerFnType.Out(0).Kind() {
-			return fmt.Errorf("reducer function's return type has to be the type of out")
+			return fmt.Errorf("reduceFn's return type(%s) has to be the type of out(%s)", reducerFnType.Out(0).Kind(), outputKind)
 		}
 
 		result := output.Elem()
@@ -48,13 +48,13 @@ func Reduce(in, out, reduceFn interface{}) error {
 func validateReducer(reducer reflect.Value) error {
 	reducerFnType := reducer.Type()
 	if reducer.Kind() != reflect.Func {
-		return fmt.Errorf("reduceFn has to be a function")
+		return fmt.Errorf("reduceFn has to be a (func) and not (%s)", reducer.Kind())
 	}
 	if reducerFnType.NumIn() != 2 {
-		return fmt.Errorf("reducer function has to take exactly two argument")
+		return fmt.Errorf("reduceFn has to take exactly 2 arguments and not %d argument(s)", reducerFnType.NumIn())
 	}
 	if reducerFnType.NumOut() != 1 {
-		return fmt.Errorf("reducer function should return only one return value")
+		return fmt.Errorf("reduceFn should have only one return value and not %d return type(s)", reducerFnType.NumOut())
 	}
 	return nil
 }
