@@ -65,8 +65,8 @@ func main() {
 	input := []int{1, 2, 3, 4, 5}
 	var output []int
 
-	godash.Filter(input, &output, func(el int) bool {
-		return bool % 2 == 0
+	godash.Filter(input, &output, func(element int) bool {
+		return element % 2 == 0
 	})
 
 	fmt.Println(output) // prints 2 4
@@ -85,6 +85,6 @@ func main() {
 		return person.Age > 25
 	})
 
-	fmt.Println(output) // prints {John 20}
+	fmt.Println(output) // prints {Doe 30}
 }
 ```
