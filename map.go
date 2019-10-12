@@ -9,18 +9,8 @@ import (
 func Map(in, out, mapperFn interface{}) error {
 	input := reflect.ValueOf(in)
 	output := reflect.ValueOf(out)
-
-	zeroValue := reflect.Value{}
-	if output == zeroValue {
-		return fmt.Errorf("output is nil. Pass a reference to set output")
-	}
-
-	if output.IsNil() {
-		return fmt.Errorf("output is nil. Pass a reference to set output")
-	}
-
-	if !output.Elem().CanSet() {
-		return fmt.Errorf("cannot set out. Pass a reference to set output")
+	if err := validateMapperOut(output); err != nil {
+		return err
 	}
 
 	mapper := reflect.ValueOf(mapperFn)
@@ -46,6 +36,23 @@ func Map(in, out, mapperFn interface{}) error {
 		return nil
 	}
 	return fmt.Errorf("not implemented")
+}
+
+func validateMapperOut(output reflect.Value) error {
+	zeroValue := reflect.Value{}
+	if output == zeroValue {
+		return fmt.Errorf("output is nil. Pass a reference to set output")
+	}
+
+	if output.IsNil() {
+		return fmt.Errorf("output is nil. Pass a reference to set output")
+	}
+
+	if !output.Elem().CanSet() {
+		return fmt.Errorf("cannot set out. Pass a reference to set output")
+	}
+
+	return nil
 }
 
 func validateMapperFunction(mapper reflect.Value) error {
