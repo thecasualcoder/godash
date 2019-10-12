@@ -14,8 +14,17 @@ func Map(in, out, mapperFn interface{}) error {
 	}
 
 	mapper := reflect.ValueOf(mapperFn)
-	if err := validateMapperFunction(mapper); err != nil {
-		return err
+	if mapper.Kind() != reflect.Func {
+		return fmt.Errorf("mapperFn has to be a function")
+	}
+
+	mapperFnType := mapper.Type()
+	if mapperFnType.NumIn() != 1 {
+		return fmt.Errorf("mapper function has to take only one argument")
+	}
+
+	if mapperFnType.NumOut() != 1 {
+		return fmt.Errorf("mapper function should return only one return value")
 	}
 
 	if input.Kind() == reflect.Slice {
@@ -38,20 +47,3 @@ func Map(in, out, mapperFn interface{}) error {
 	return fmt.Errorf("not implemented")
 }
 
-
-func validateMapperFunction(mapper reflect.Value) error {
-	if mapper.Kind() != reflect.Func {
-		return fmt.Errorf("mapperFn has to be a function")
-	}
-
-	mapperFnType := mapper.Type()
-	if mapperFnType.NumIn() != 1 {
-		return fmt.Errorf("mapper function has to take only one argument")
-	}
-
-	if mapperFnType.NumOut() != 1 {
-		return fmt.Errorf("mapper function should return only one return value")
-	}
-
-	return nil
-}
