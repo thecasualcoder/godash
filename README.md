@@ -17,6 +17,7 @@ This library heavily makes use of `reflect` package and hence will have an **imp
 1. [Map](#Map)
 2. [Filter](#Filter)
 3. [Reduce](#Reduce)
+4. [Any](#Any)
 
 ## Usages
 
@@ -139,5 +140,39 @@ func main() {
 	})
 
 	fmt.Println(output) // prints 45
+}
+```
+
+### Any
+
+Any checks if predicate returns truthy for any element of collection. Iteration is stopped once predicate returns truthy.
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Any).
+
+```go
+func main() {
+	input := []int{1, 2, 3, 4, 5}
+	var output []int
+
+	output, _ := godash.Any(input, func(num int) bool {
+		return num % 7 == 0
+	})
+
+	fmt.Println(output) // prints false
+}
+```
+
+```go
+func main() {
+	input := []Person{
+		{Name: "John", Age: 25},
+		{Name: "Doe", Age: 15},
+	}
+	var output int
+
+	output, _ := godash.Any(input, func(person Person) bool {
+		return person.Age < 18
+	})
+
+	fmt.Println(output) // prints true
 }
 ```
