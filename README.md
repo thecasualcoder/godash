@@ -1,5 +1,8 @@
 # Godash
 
+[![Build Status](https://travis-ci.org/thecasualcoder/godash.svg?branch=master)](https://travis-ci.org/thecasualcoder/godash)
+[![Go Doc](https://godoc.org/github.com/thecasualcoder/godash?status.svg)](https://godoc.org/github.com/thecasualcoder/godash)
+
 Inspired from [Lodash](https://github.com/lodash/lodash) for golang
 
 ## Why?
