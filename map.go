@@ -5,7 +5,15 @@ import (
 	"reflect"
 )
 
-// Map applies mapperFn on each item of in and puts it in out
+// Map applies mapperFn on each item of in and puts it in out.
+// Currently, input and output for type slice is supported.
+//
+// Validations:
+// 1. Mapper function should take in one argument and return one argument
+// 2. Mapper function's argument should be of the same type of each element of input slice.
+// 3. Mapper function's output should be of the same type of each element of output slice.
+//
+// Validation failures are returned as error by the godash.Map to the caller.
 func Map(in, out, mapperFn interface{}) error {
 	input := reflect.ValueOf(in)
 	output := reflect.ValueOf(out)
@@ -28,14 +36,14 @@ func Map(in, out, mapperFn interface{}) error {
 	}
 
 	if input.Kind() == reflect.Slice {
-		if output.Kind() != reflect.Slice {
+		if output.Elem().Kind() != reflect.Slice {
 			return fmt.Errorf("output should be a slice for input of type slice")
 		}
-		if input.Type().Elem().Kind() != mapper.Type().In(0).Kind() {
-			return fmt.Errorf("mapper function's first argument has to be the type of element of input slice")
+		if input.Type().Elem() != mapper.Type().In(0) {
+			return fmt.Errorf("mapper function's first argument (%s) has to be (%s)", mapper.Type().In(0), input.Type().Elem())
 		}
-		if output.Type().Elem().Elem().Kind() != mapper.Type().Out(0).Kind() {
-			return fmt.Errorf("mapper function's return type has to be the type of element of output slice")
+		if output.Elem().Type().Elem() != mapper.Type().Out(0) {
+			return fmt.Errorf("mapper function's return type has to be (%s) but is (%s)", mapper.Type().Out(0), output.Elem().Type().Elem())
 		}
 
 		result := reflect.MakeSlice(output.Elem().Type(), 0, input.Len())

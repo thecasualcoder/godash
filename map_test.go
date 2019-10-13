@@ -1,6 +1,7 @@
 package godash_test
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/thecasualcoder/godash"
 	"testing"
@@ -116,7 +117,7 @@ func TestMap(t *testing.T) {
 
 		{
 			err := godash.Map(in, &out, func(string) string { return "" })
-			assert.EqualError(t, err, "mapper function's first argument has to be the type of element of input slice")
+			assert.EqualError(t, err, "mapper function's first argument (string) has to be (int)")
 		}
 
 		{
@@ -131,7 +132,7 @@ func TestMap(t *testing.T) {
 
 		{
 			err := godash.Map(in, &out, func(int) int { return 0 })
-			assert.EqualError(t, err, "mapper function's return type has to be the type of element of output slice")
+			assert.EqualError(t, err, "mapper function's return type has to be (int) but is (string)")
 		}
 
 		{
@@ -139,4 +140,17 @@ func TestMap(t *testing.T) {
 			assert.NoError(t, err)
 		}
 	})
+}
+
+func ExampleMap() {
+	input := []int{0, 1, 2, 3, 4}
+	var output []string
+
+	_ = godash.Map(input, &output, func(num int) string {
+		return fmt.Sprintf("%d", num*num)
+	})
+
+	fmt.Println(output)
+
+	// Output: [0 1 4 9 16]
 }
