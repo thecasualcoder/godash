@@ -1,6 +1,8 @@
 package godash_test
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/thecasualcoder/godash"
 	"strconv"
@@ -177,4 +179,29 @@ func TestReduce(t *testing.T) {
 			assert.NoError(t, err)
 		}
 	})
+}
+
+func ExampleReduce() {
+	input := []string{"count", "words", "and", "print", "words", "count"}
+	accumulator := map[string]int{}
+
+	_ = godash.Reduce(input, &accumulator, func(acc map[string]int, element string) map[string]int {
+		if _, present := acc[element]; present {
+			acc[element] = acc[element] + 1
+		} else {
+			acc[element] = 1
+		}
+		return acc
+	})
+
+	bytes, _ := json.MarshalIndent(accumulator, "", "  ")
+	fmt.Println(string(bytes))
+
+	// Output:
+	//{
+	//   "and": 1,
+	//   "count": 2,
+	//   "print": 1,
+	//   "words": 2
+	//}
 }

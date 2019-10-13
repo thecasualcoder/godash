@@ -20,9 +20,8 @@ This library heavily makes use of `reflect` package and hence will have an **imp
 
 ### Map
 
-Map applies a mapper function on each element of an input and sets it in output. 
-
-_Primitive types_
+Map applies a mapper function on each element of an input and sets it in output.
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Map).
 
 ```go
 func main() {
@@ -36,8 +35,6 @@ func main() {
 	fmt.Println(output) // prints 1 4 9 16 25
 }
 ```
-
-_Struct type_
 
 ```go
 type Person struct {
@@ -62,7 +59,8 @@ func main() {
 
 ### Filter
 
-Filter out elements that fail the predicate
+Filter out elements that fail the predicate.
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Filter).
 
 ```go
 func main() {
@@ -95,31 +93,38 @@ func main() {
 
 ### Reduce
 
-Reduce reduces the given collection using given reduce function 
-
-_Primitive types_
+Reduce can accept a reducer and apply the reducer on each element of the input slice while providing an accumulator to save the reduce output
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Reduce).
 
 ```go
 func main() {
-	input := []int{1, 2, 3, 4, 5}
-	var output int
+    input := []string{"count", "words", "and", "print", "words", "count"}
+	accumulator := map[string]int{}
 
-	godash.Reduce(input, &output, func(sum, element int) int {
-		return sum + element
+	_ = godash.Reduce(input, &accumulator, func(acc map[string]int, element string) map[string]int {
+		if _, present := acc[element]; present {
+			acc[element] = acc[element] + 1
+		} else {
+			acc[element] = 1
+		}
+		return acc
 	})
 
-	fmt.Println(output) // prints 15
+	bytes, _ := json.MarshalIndent(accumulator, "", "  ")
+	fmt.Println(string(bytes))
+
+	// Output:
+	//{
+	//   "and": 1,
+	//   "count": 2,
+	//   "print": 1,
+	//   "words": 2
+	//}
+
 }
 ```
 
-_Struct type_
-
 ```go
-type Person struct {
-	Name string
-	Age Int
-}
-
 func main() {
 	input := []Person{
 		{Name: "John", Age: 22},

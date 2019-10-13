@@ -1,6 +1,7 @@
 package godash_test
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/thecasualcoder/godash"
 	"testing"
@@ -100,4 +101,22 @@ func TestFilter(t *testing.T) {
 			assert.EqualError(t, err, "output is nil. Pass a reference to set output")
 		}
 	})
+}
+
+func ExampleFilter() {
+	input := []string{
+		"rhythm",
+		"of",
+		"life",
+	}
+	var output []string
+
+	_ = godash.Filter(input, &output, func(in string) bool {
+		return len(in) > 3
+	})
+
+	fmt.Println(output)
+
+	// Output:
+	// [rhythm life]
 }
