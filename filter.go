@@ -14,7 +14,7 @@ import (
 // Validations:
 //
 //	1. Input and Output's slice should be of same type
-//	2. Predicate function can take one argment and return one argument
+//	2. Predicate function can take one argument and return one argument
 //	3. Predicate's return argument is always boolean.
 //	4. Predicate's input argument should be input/output slice's element type.
 //

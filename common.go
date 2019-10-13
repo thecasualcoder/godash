@@ -5,7 +5,6 @@ import (
 	"reflect"
 )
 
-
 func validateOut(output reflect.Value) error {
 	zeroValue := reflect.Value{}
 	if output == zeroValue {

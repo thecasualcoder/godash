@@ -56,13 +56,12 @@ func TestReduce(t *testing.T) {
 
 	t.Run("support structs", func(t *testing.T) {
 		type person struct {
-			name string
-			age  int
+			age int
 		}
 
 		in := []person{
-			{name: "john", age: 20},
-			{name: "doe", age: 23},
+			{age: 20},
+			{age: 23},
 		}
 		out := 0
 		expected := 43
