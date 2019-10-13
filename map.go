@@ -9,9 +9,10 @@ import (
 // Currently, input and output for type slice is supported.
 //
 // Validations:
-// 1. Mapper function should take in one argument and return one argument
-// 2. Mapper function's argument should be of the same type of each element of input slice.
-// 3. Mapper function's output should be of the same type of each element of output slice.
+//
+//	1. Mapper function should take in one argument and return one argument
+//	2. Mapper function's argument should be of the same type of each element of input slice.
+//	3. Mapper function's output should be of the same type of each element of output slice.
 //
 // Validation failures are returned as error by the godash.Map to the caller.
 func Map(in, out, mapperFn interface{}) error {

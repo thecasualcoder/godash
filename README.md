@@ -93,7 +93,7 @@ func main() {
 
 ### Reduce
 
-Reduce can accept a reducer and apply the reducer on each element of the input slice while providing an accumulator to save the reduce output
+Reduce can accept a reducer and apply the reducer on each element of the input slice while providing an accumulator to save the reduce output.
 For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Reduce).
 
 ```go

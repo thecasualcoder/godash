@@ -18,8 +18,8 @@ import (
 // Reduce does the following validations:
 //
 //	1. Reducer function should accept exactly 2 arguments and return 1 argument
-//  2. Reducer function's second argument should be the same type as input slice's element type
-// 	3. Reducer function's return type should be the same as that of the accumulator
+//	2. Reducer function's second argument should be the same type as input slice's element type
+//	3. Reducer function's return type should be the same as that of the accumulator
 //
 // Validation errors are returned to the caller.
 func Reduce(in, out, reduceFn interface{}) error {
