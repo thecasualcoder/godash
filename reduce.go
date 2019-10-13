@@ -5,7 +5,23 @@ import (
 	"reflect"
 )
 
-// Reduce reduces the given collection using given reduce function
+// Reduce can accept a reducer and apply the reducer on each element
+// of the input slice while providing an accumulator to save the reduce output.
+//
+// Input of type slice is supported as of now.
+// Output is the accumulator.
+// ReduceFn is the reducer function.
+//
+// Whatever ReduceFn returns is fed as accumulator for the next iteration.
+// Reduction happens from left-to-right.
+//
+// Reduce does the following validations:
+//
+//	1. Reducer function should accept exactly 2 arguments and return 1 argument
+//  2. Reducer function's second argument should be the same type as input slice's element type
+// 	3. Reducer function's return type should be the same as that of the accumulator
+//
+// Validation errors are returned to the caller.
 func Reduce(in, out, reduceFn interface{}) error {
 	input := reflect.ValueOf(in)
 	output := reflect.ValueOf(out)

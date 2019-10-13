@@ -5,6 +5,20 @@ import (
 	"reflect"
 )
 
+// Filter out elements that fail the predicate.
+//
+// Input of type slice is supported as of now.
+// Output is a slice in which filtered-in elements are stored.
+// PredicateFn function is applied on each element of input to determine to filter or not
+//
+// Validations:
+//
+//	1. Input and Output's slice should be of same type
+//	2. Predicate function can take one argment and return one argument
+//	3. Predicate's return argument is always boolean.
+//	4. Predicate's input argument should be input/output slice's element type.
+//
+// Validation errors are returned to the caller.
 func Filter(in, out, predicateFn interface{}) error {
 	input := reflect.ValueOf(in)
 
