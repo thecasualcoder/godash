@@ -139,3 +139,10 @@ func main() {
 	fmt.Println(output) // prints 45
 }
 ```
+## Build
+
+To build godash locally
+
+```bash
+make build
+```
