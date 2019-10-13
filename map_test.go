@@ -24,12 +24,11 @@ func TestMap(t *testing.T) {
 	t.Run("support structs", func(t *testing.T) {
 		type person struct {
 			name string
-			age  int
 		}
 
 		in := []person{
-			{name: "john", age: 20},
-			{name: "doe", age: 23},
+			{name: "john"},
+			{name: "doe"},
 		}
 		out := make([]string, 0)
 		expected := []string{"john", "doe"}

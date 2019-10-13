@@ -23,14 +23,13 @@ func TestFilter(t *testing.T) {
 
 	t.Run("should struct types", func(t *testing.T) {
 		type person struct {
-			name string
-			age  int
+			age int
 		}
 		input := []person{
-			{"john", 30},
-			{"doe", 20},
-			{"foo", 40},
-			{"bar", 10},
+			{30},
+			{20},
+			{40},
+			{10},
 		}
 		var output []person
 
@@ -38,8 +37,8 @@ func TestFilter(t *testing.T) {
 			return p.age > 20
 		})
 		expected := []person{
-			{"john", 30},
-			{"foo", 40},
+			{30},
+			{40},
 		}
 
 		assert.NoError(t, err)
