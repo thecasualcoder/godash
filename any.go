@@ -58,3 +58,8 @@ func Any(in, predicateFn interface{}) (bool, error) {
 
 	return output, fmt.Errorf("not implemented for (%s)", inputKind)
 }
+
+// Some is an alias for Any function
+func Some(in, predicateFn interface{}) (bool, error) {
+	return Any(in, predicateFn)
+}
