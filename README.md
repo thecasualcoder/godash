@@ -17,6 +17,8 @@ This library heavily makes use of `reflect` package and hence will have an **imp
 2. [Filter](#Filter)
 3. [Reduce](#Reduce)
 
+5. [All](#All-or-Every) or [Every](#All-or-Every)
+
 ## Usages
 
 ### Map
@@ -140,3 +142,31 @@ func main() {
 	fmt.Println(output) // prints 45
 }
 ```
+### All or Every
+
+All or Every checks if predicate returns truthy for all element of collection. Iteration is stopped once predicate returns falsely.
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#All).
+
+```go
+func main() {
+	input := []int{1, 2, 3, 4, 5}
+	var output []int
+	output, _ := godash.All(input, func(num int) bool {
+		return num >= 1
+	})
+	fmt.Println(output) // prints true
+}
+```
+
+```go
+func main() {
+	input := []Person{
+		{Name: "John", Age: 25},
+		{Name: "Doe", Age: 15},
+	}
+	var output int
+	output, _ := godash.Every(input, func(person Person) bool {
+		return person.Age < 18
+	})
+	fmt.Println(output) // prints false
+}
