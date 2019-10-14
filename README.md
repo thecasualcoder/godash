@@ -9,8 +9,9 @@ Inspired from [Lodash](https://github.com/lodash/lodash) for golang
 
 ## Why?
 
-I did not like most map/reduce implementations that returned an `interface{}` which had to be typecasted. This library follows the concept of how `json.Marshal` works. Create an output variable **outside** the functions and pass a **pointer reference** to it, so it can be **set**.
-This library heavily makes use of `reflect` package and hence will have an **impact on performance**. Use it with care. All functions have **validations** on how mapper function/predicate functions should be written. So even if we lose out on compile time validation, the library still **does not panic** if it does not know how to handle an argument passed to it.
+- I did not like most map/reduce implementations that returned an `interface{}` which had to be typecasted. This library follows the concept of how `json.Marshal` works. Create an output variable **outside** the functions and pass a **pointer reference** to it, so it can be **set**.
+- This library heavily makes use of `reflect` package and hence will have an **impact on performance**. **DO NOT USE THIS IN PRODUCTION**. This repository is more of a way to learn the reflect package and measure its performance impact.
+- All functions have **validations** on how mapper function/predicate functions should be written. So even if we lose out on compile time validation, the library still **does not panic** if it does not know how to handle an argument passed to it.
 
 ## Available Functions
 
