@@ -7,7 +7,7 @@ import (
 
 // GroupBy creates an object composed of keys generated from the results of running
 // each element of slice throught iteration. The order of grouped values
-// is determined by the order they occur in `collection`. The corresponding
+// is determined by the order they occur in slice. The corresponding
 // value of each key is an array of elements responsible for generating the
 // key.
 //
@@ -28,7 +28,7 @@ func GroupBy(in, out, groupFn interface{}) error {
 	group := reflect.ValueOf(groupFn)
 
 	if group.Kind() != reflect.Func {
-		return fmt.Errorf("groupFn (%s) has to be a function", group.Kind())
+		return fmt.Errorf("groupFn should to be a function")
 	}
 
 	groupFnType := group.Type()
@@ -78,17 +78,16 @@ func GroupBy(in, out, groupFn interface{}) error {
 		for i := 0; i < input.Len(); i++ {
 			arg := input.Index(i)
 			argValues := []reflect.Value{arg}
-			returnValue := group.Call(argValues)[0]
-			slice := result.MapIndex(returnValue)
+			key := group.Call(argValues)[0]
 
-			if slice.IsValid() {
+			if slice := result.MapIndex(key); slice.IsValid() {
 				slice = reflect.Append(slice, argValues[0])
-				result.SetMapIndex(returnValue, slice)
+				result.SetMapIndex(key, slice)
 
 			} else {
 				slice := reflect.MakeSlice(outputSliceType, 0, input.Len())
 				slice = reflect.Append(slice, argValues[0])
-				result.SetMapIndex(returnValue, slice)
+				result.SetMapIndex(key, slice)
 			}
 		}
 		output.Elem().Set(result)
