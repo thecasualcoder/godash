@@ -177,3 +177,11 @@ func main() {
 	fmt.Println(output) // prints true
 }
 ```
+
+## Build
+
+To build godash locally
+
+```bash
+make build
+```

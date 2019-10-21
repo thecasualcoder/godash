@@ -16,7 +16,6 @@
 # vendor/
 
 ### Go Patch ###
-/vendor/
 /Godeps/
 
 

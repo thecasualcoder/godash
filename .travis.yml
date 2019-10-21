@@ -8,4 +8,6 @@ env:
     - GO111MODULE=on
 
 script:
-  - go test -v -race -cover ./...
+  - make setup-common
+  - make test-cover-html
+  - make build
