@@ -185,7 +185,7 @@ For more [docs](https://godoc.org/github.com/thecasualcoder/godash#All).
 ```go 
 func main() { 
 	input := []int{1, 2, 3, 4, 5} 
-	var output []int 
+	var output []bool 
 	output, _ := godash.All(input, func(num int) bool { 
 		return num >= 1 
 	}) 
@@ -199,7 +199,7 @@ func main() {
 		{Name: "John", Age: 25}, 
 		{Name: "Doe", Age: 15}, 
 	} 
-	var output int 
+	var output bool 
 	output, _ := godash.Every(input, func(person Person) bool {
 		return person.Age < 18 
 	}) 

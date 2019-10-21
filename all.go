@@ -16,25 +16,25 @@ import (
 //
 // Validation errors are returned to the caller
 func All(in, predicateFn interface{}) (bool, error) {
-	var output bool = true;
+
 	input := reflect.ValueOf(in)
 	predicate := reflect.ValueOf(predicateFn)
 
 	if predicate.Kind() != reflect.Func {
-		return output, fmt.Errorf("predicateFn has to be a function")
+		return false, fmt.Errorf("predicateFn has to be a function")
 	}
 
 	predicateFnType := predicate.Type()
 	if predicateFnType.NumIn() != 1 {
-		return output, fmt.Errorf("predicate function has to take only one argument")
+		return false, fmt.Errorf("predicate function has to take only one argument")
 	}
 
 	if predicateFnType.NumOut() != 1 {
-		return output, fmt.Errorf("predicate function should return only one return value")
+		return false, fmt.Errorf("predicate function should return only one return value")
 	}
 
 	if predicateFnType.Out(0).Kind() != reflect.Bool {
-		return output, fmt.Errorf("predicate function should return a boolean value")
+		return false, fmt.Errorf("predicate function should return a boolean value")
 	}
 
 	inputKind := input.Kind()
@@ -42,22 +42,21 @@ func All(in, predicateFn interface{}) (bool, error) {
 		inputSliceElemType := input.Type().Elem
 		predicateFnArgType := predicateFnType.In(0)
 		if inputSliceElemType() != predicateFnArgType {
-			return output, fmt.Errorf("predicate function's argument (%s) has to be (%s)", predicateFnArgType, inputSliceElemType())
+			return false, fmt.Errorf("predicate function's argument (%s) has to be (%s)", predicateFnArgType, inputSliceElemType())
 		}
 
 		for i := 0; i < input.Len(); i++ {
 			arg := input.Index(i)
 			returnValue := predicate.Call([]reflect.Value{arg})[0]
 			if !returnValue.Bool() {
-				output = false
-				break
+				return false, nil
 			}
 		}
 
-		return output, nil
+		return true, nil
 	}
 
-	return output, fmt.Errorf("not implemented for (%s)", inputKind)
+	return false, fmt.Errorf("not implemented for (%s)", inputKind)
 }
 
 // Every is an alias for All function
