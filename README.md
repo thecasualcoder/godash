@@ -19,6 +19,7 @@ Inspired from [Lodash](https://github.com/lodash/lodash) for golang
 2. [Filter](#Filter)
 3. [Reduce](#Reduce)
 4. [Any](#Any-or-Some) or [Some](#Any-or-Some)
+5. [Find](#Find)
 
 ## Usages
 
@@ -175,5 +176,22 @@ func main() {
 	})
 
 	fmt.Println(output) // prints true
+}
+```
+
+### Find
+
+Returns the first element which passes the predicate.
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Find).
+```go
+func main() {
+	input := []string{"john","wick","will"}
+	var output string
+
+	godash.Find(input, &output, func(element string) bool {
+    	return strings.HasPrefix(element, "w") // starts with
+	}
+	// output is "wick"
+	fmt.Println(output)
 }
 ```
