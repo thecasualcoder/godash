@@ -5,6 +5,20 @@ import (
 	"reflect"
 )
 
+// Find out elements.
+//
+// Input of type slice is supported as of now.
+// Output is a elements are matched.
+// PredicateFn function is applied on each element of input to determine to find element
+//
+// Validations:
+//
+//	1. Input's element type and Output should be of same type
+//	2. Predicate function can take one argument and return one argument
+//	3. Predicate's return argument is always boolean.
+//	4. Predicate's input argument should be output element type.
+//
+// Validation errors are returned to the caller
 func Find(in, out, predicateFn interface{}) error {
 	input := reflect.ValueOf(in)
 	output := reflect.ValueOf(out)
