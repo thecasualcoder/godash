@@ -87,7 +87,7 @@ func main() {
 	}
 	var output []string
 
-	godash.Filter(input, &output, func(person Person) string {
+	godash.Filter(input, &output, func(person Person) bool {
 		return person.Age > 25
 	})
 
