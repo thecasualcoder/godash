@@ -83,6 +83,22 @@ func TestFind(t *testing.T) {
 		assert.EqualError(t, err, "input slice (int) and output (string) should be of the same Type")
 	})
 
+	t.Run("should return error if element not found", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		{
+			var out int
+
+			err := godash.Find(in, &out, func(x int) bool { return x == 4 })
+
+			assert.EqualError(t, err, "element not found")
+		}
+		{
+			var out int
+			err := godash.Find(in, &out, func(x int) bool { return x == 1 })
+			assert.NoError(t, err)
+		}
+	})
+
 }
 
 func ExampleFind() {
@@ -94,7 +110,7 @@ func ExampleFind() {
 	var output string
 
 	_ = godash.Find(input, &output, func(in string) bool {
-		return strings.HasPrefix(in, "r") // starts with
+		return strings.HasPrefix(in, "r")
 	})
 	fmt.Println(output)
 

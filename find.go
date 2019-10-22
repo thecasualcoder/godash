@@ -9,7 +9,7 @@ import (
 //
 // Input of type slice is supported as of now.
 // Output is a elements are matched.
-// PredicateFn function is applied on each element of input to determine to find element
+// PredicateFn function is applied on each element of input to determine to find element until it finds the element
 //
 // Validations:
 //
@@ -55,7 +55,7 @@ func Find(in, out, predicateFn interface{}) error {
 				return nil
 			}
 		}
-
+		return fmt.Errorf("element not found")
 	}
 	return fmt.Errorf("not implemented")
 }
