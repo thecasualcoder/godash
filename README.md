@@ -20,6 +20,7 @@ Inspired from [Lodash](https://github.com/lodash/lodash) for golang
 3. [Reduce](#Reduce)
 4. [Any](#Any-or-Some) or [Some](#Any-or-Some)
 5. [Find](#Find)
+6. [All](#All-or-Every) or [Every](#All-or-Every)
 
 ## Usages
 
@@ -150,15 +151,14 @@ func main() {
 Any or Some checks if predicate returns truthy for any element of collection. Iteration is stopped once predicate returns truthy.
 For more [docs](https://godoc.org/github.com/thecasualcoder/godash#Any).
 
+
 ```go
 func main() {
 	input := []int{1, 2, 3, 4, 5}
 	var output []int
-
 	output, _ := godash.Any(input, func(num int) bool {
 		return num % 7 == 0
 	})
-
 	fmt.Println(output) // prints false
 }
 ```
@@ -170,14 +170,13 @@ func main() {
 		{Name: "Doe", Age: 15},
 	}
 	var output int
-
 	output, _ := godash.Some(input, func(person Person) bool {
 		return person.Age < 18
 	})
-
 	fmt.Println(output) // prints true
 }
 ```
+
 
 ### Find
 
@@ -195,3 +194,32 @@ func main() {
 	fmt.Println(output)
 }
 ```
+
+### All or Every 
+
+All or Every checks if predicate returns truthy for all element of collection. Iteration is stopped once predicate returns falsely. 
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#All). 
+
+```go 
+func main() { 
+	input := []int{1, 2, 3, 4, 5} 
+	var output bool 
+	output, _ := godash.All(input, func(num int) bool { 
+		return num >= 1 
+	}) 
+	fmt.Println(output) // prints true 
+} 
+``` 
+
+```go 
+func main() { 
+	input := []Person{ 
+		{Name: "John", Age: 25}, 
+		{Name: "Doe", Age: 15}, 
+	} 
+	var output bool 
+	output, _ := godash.Every(input, func(person Person) bool {
+		return person.Age < 18 
+	}) 
+	fmt.Println(output) // prints false 
+}
