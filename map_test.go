@@ -172,7 +172,7 @@ func TestMapForMap(t *testing.T) {
 		})
 
 		assert.NoError(t, err)
-		assert.Equal(t, expected, out)
+		assert.ElementsMatch(t, expected, out)
 	})
 
 	squared := func(key string, value int) int {
