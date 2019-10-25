@@ -61,6 +61,23 @@ func main() {
 }
 ```
 
+```go
+func main() {
+	input := map[string]int{
+			"key1": 1,
+			"key2": 2,
+			"key3": 3,
+		}
+	var output []int
+
+	godash.Map(input, &output, func(el int) int {
+		return el * el
+	})
+
+	fmt.Println(output) // prints 1 4 9
+}
+```
+
 ### Filter
 
 Filter out elements that fail the predicate.
