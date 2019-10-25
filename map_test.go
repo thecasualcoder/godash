@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"github.com/thecasualcoder/godash"
+	"sort"
 	"testing"
 )
 
@@ -314,12 +315,13 @@ func ExampleMap() {
 
 func ExampleMap_map() {
 	input := map[string]int{"key1": 1, "key2": 2, "key3": 3, "key4": 4, "key5": 5}
-	var output []string
+	var output []int
 
-	_ = godash.Map(input, &output, func(key string, num int) string {
-		return fmt.Sprintf("%d", num*num)
+	_ = godash.Map(input, &output, func(key string, num int) int {
+		return num * num
 	})
 
+	sort.Ints(output)
 	fmt.Println(output)
 
 	// Unordered Output: [1 4 9 16 25]
