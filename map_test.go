@@ -312,7 +312,7 @@ func ExampleMap() {
 	// Output: [0 1 4 9 16]
 }
 
-func ExampleMapForMaps() {
+func ExampleMap_map() {
 	input := map[string]int{"key1": 1, "key2": 2, "key3": 3, "key4": 4, "key5": 5}
 	var output []string
 
@@ -322,5 +322,5 @@ func ExampleMapForMaps() {
 
 	fmt.Println(output)
 
-	// Output: [0 1 4 9 16]
+	// Unordered Output: [1 4 9 16 25]
 }
