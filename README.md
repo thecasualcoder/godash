@@ -21,6 +21,7 @@ Inspired from [Lodash](https://github.com/lodash/lodash) for golang
 4. [Any](#Any-or-Some) or [Some](#Any-or-Some)
 5. [Find](#Find)
 6. [All](#All-or-Every) or [Every](#All-or-Every)
+7. [GroupBy](#GroupBy)
 
 ## Usages
 
@@ -240,3 +241,38 @@ func main() {
 	}) 
 	fmt.Println(output) // prints false 
 }
+```
+
+### GroupBy
+
+GroupBy creates an object composed of keys generated from the results of running each element of slice throught iteration. The order of grouped values is determined by the order they occur in slice. The corresponding value of each key is an array of elements responsible for generating the key.
+For more [docs](https://godoc.org/github.com/thecasualcoder/godash#GroupBy).
+
+```go
+func main() {
+	input := []Person{
+		Person{name: "John", age: 25},
+		Person{name: "Doe", age: 30},
+		Person{name: "Wick", age: 25},
+	}
+
+	var output map[int][]Person
+
+	godash.GroupBy(input, &output, func(person Person) int {
+		return person.age
+	})
+	
+	fmt.Printf("Groups Count: %d", len(output))
+	for k, v := range output {
+		fmt.Printf("\nGroup %d: ", k)
+		for _, elem := range v {
+			fmt.Printf(" %s,", elem.name)
+		}
+	}
+
+	// Output:
+	// Groups Count: 2
+	// Group 25:  John, Wick,
+	// Group 30:  Doe,
+}
+```
